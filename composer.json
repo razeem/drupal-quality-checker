@@ -29,10 +29,18 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer"
+      "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
+      "cp vendor/razeem/drupal-quality-checker/dist/phpcs.xml.dist phpcs.xml.dist",
+      "cp vendor/razeem/drupal-quality-checker/dist/phpmd.xml.dist phpmd.xml.dist",
+      "cp vendor/razeem/drupal-quality-checker/dist/grumphp.yml.dist grumphp.yml.dist",
+      "cp vendor/razeem/drupal-quality-checker/dist/phpstan.neon.dist phpstan.neon.dist"
     ],
     "post-update-cmd": [
-      "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer"
+      "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
+      "cp vendor/razeem/drupal-quality-checker/dist/phpcs.xml.dist phpcs.xml.dist",
+      "cp vendor/razeem/drupal-quality-checker/dist/phpmd.xml.dist phpmd.xml.dist",
+      "cp vendor/razeem/drupal-quality-checker/dist/grumphp.yml.dist grumphp.yml.dist",
+      "cp vendor/razeem/drupal-quality-checker/dist/phpstan.neon.dist phpstan.neon.dist"
     ]
   },
   "extra": {

@@ -44,21 +44,11 @@ After installation, you can use the following commands to check code quality:
 
 ## Customization
 
-This project has been customized to include a different template file and the Applab logo.
-
-## Adding Custom Rules
-
-To add custom rules, copy the provided `.dist` files to the root of your project:
-
-```bash
-cp vendor/applab/drupal-quality-checker/dist/phpcs.xml.dist phpcs.xml.dist
-cp vendor/applab/drupal-quality-checker/dist/phpmd.xml.dist phpmd.xml.dist
-cp vendor/applab/drupal-quality-checker/dist/grumphp.yml.dist grumphp.yml.dist
-```
+This project has been customized to include a different logo.
 
 ## Support
 
-For issues, please visit the [issue tracker](https://github.com/applab/drupal-quality-checker/issues).
+For issues, please visit the [issue tracker](https://github.com/razeem/drupal-quality-checker/issues).
 
 ## License
 
