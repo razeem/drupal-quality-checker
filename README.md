@@ -27,12 +27,9 @@ composer require razeem/drupal-quality-checker
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/yourusername/drupal-quality-checker"
+      "url": "https://github.com/razeem/drupal-quality-checker"
     }
-  ],
-  "require": {
-    "applab/drupal-quality-checker": "dev-main"
-  }
+  ]
 }
 ```
 

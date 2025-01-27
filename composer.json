@@ -1,5 +1,5 @@
 {
-  "name": "applab/drupal-quality-checker",
+  "name": "razeem/drupal-quality-checker",
   "type": "project",
   "description": "Setups code quality checking tools for Drupal project.",
   "homepage": "https://github.com/razeem/drupal-quality-checker",
@@ -41,7 +41,7 @@
     }
   },
   "support": {
-    "issues": "https://github.com/applab/drupal-quality-checker/issues",
-    "source": "https://github.com/applab/drupal-quality-checker"
+    "issues": "https://github.com/razeem/drupal-quality-checker/issues",
+    "source": "https://github.com/razeem/drupal-quality-checker"
   }
 }
