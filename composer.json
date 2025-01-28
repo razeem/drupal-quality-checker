@@ -36,11 +36,11 @@
     "installer-paths": {
       "vendor/{$name}/": ["type:project"]
     },
-    "class": "Razeem\\DrupalQualityChecker\\Composer\\FileCopierPlugin"
+    "class": "RazeemDrupalQualityChecker\\Composer\\FileCopierPlugin"
   },
   "autoload": {
     "psr-4": {
-      "Razeem\\DrupalQualityChecker\\": "src/"
+      "RazeemDrupalQualityChecker\\": "src/"
     }
   },
   "support": {

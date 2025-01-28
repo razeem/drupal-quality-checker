@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Razeem\DrupalQualityChecker\Plugin;
+namespace Razeem\DrupalQualityChecker\Composer;
 
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
@@ -26,7 +26,7 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
   }
 
   /**
-   * Attach package installation events. Priority of 10 is added to trigger it before GrumPHP plugin.
+   * Attach package installation events.
    *
    * {@inheritdoc}
    */
