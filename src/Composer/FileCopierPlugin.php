@@ -1,11 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Razeem\DrupalQualityChecker\Plugin;
 
+use Composer\Composer;
+use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\IO\IOInterface;
+use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
+use Composer\Script\ScriptEvents;
 
-class FileCopierPlugin
+class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
 {
+
+  /**
+   * This method is called when the plugin is activated. It allows the plugin
+   * to perform any necessary setup or initialization.
+   * 
+   * {@inheritDoc}
+   */
+  public function activate(Composer $composer, IOInterface $io)
+  {
+    // Nothing to do here.
+  }
+
+  /**
+   * Attach package installation events. Priority of 10 is added to trigger it before GrumPHP plugin.
+   *
+   * {@inheritdoc}
+   */
+  public static function getSubscribedEvents()
+  {
+    return [
+      ScriptEvents::POST_INSTALL_CMD => ['copyFiles', 10],
+      ScriptEvents::POST_UPDATE_CMD => ['copyFiles', 10],
+    ];
+  }
+  
+
   public static function copyFiles(Event $event)
   {
     $filesToCopy = [
