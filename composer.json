@@ -1,6 +1,6 @@
 {
   "name": "razeem/drupal-quality-checker",
-  "type": "project",
+  "type": "composer-plugin",
   "description": "Setups code quality checking tools for Drupal project.",
   "homepage": "https://github.com/razeem/drupal-quality-checker",
   "license": "MIT",
