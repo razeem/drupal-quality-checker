@@ -10,17 +10,15 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
+ * This class implements a Composer plugin that copies configuration files
+ * to the project root and validates commit messages against a specified pattern.
  * @psalm-suppress MissingConstructor
  */
 class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
 {
-  /**
-   * @var Composer
-   */
-  private $composer;
-
   /**
    * @var IOInterface
    */
@@ -31,7 +29,6 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
    */
   public function activate(Composer $composer, IOInterface $io): void
   {
-    $this->composer = $composer;
     $this->io = $io;
   }
 
@@ -70,8 +67,6 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
 
     // Path to the dist directory.
     $sourceDir = __DIR__ . '/../../dist';
-    $this->io->write("Source directory: $sourceDir\n");
-    $this->io->write("DIR: " . __DIR__ . "\n");
     // Target directory (current working directory).
     $targetDir = getcwd();
 
@@ -88,7 +83,6 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
       }
     }
     $this->io->write('<fg=green>Configuration files are copied successfully.</fg=green>');
-
   }
 
 }
