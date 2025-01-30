@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Razeem\DrupalQualityChecker\Composer;
+namespace RazeemDrupalQualityChecker\Composer;
 
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
