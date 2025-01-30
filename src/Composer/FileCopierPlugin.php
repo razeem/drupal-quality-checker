@@ -11,6 +11,9 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
 {
   /**
