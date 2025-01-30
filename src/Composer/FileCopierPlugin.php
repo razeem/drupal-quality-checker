@@ -59,7 +59,7 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
   }
   
 
-  public static function copyFilesToRoot(Event $event)
+  public function copyFilesToRoot(Event $event)
   {
     $filesToCopy = [
       'phpcs.xml.dist',
