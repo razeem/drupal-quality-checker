@@ -11,6 +11,9 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
 {
   /**
@@ -54,7 +57,6 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
       ScriptEvents::POST_UPDATE_CMD => ['copyFilesToRoot', 10],
     ];
   }
-  
 
   public static function copyFilesToRoot(Event $event)
   {
