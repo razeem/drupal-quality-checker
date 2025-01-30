@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RazeemDrupalQualityChecker\Composer;
+namespace Razeem\Composer;
 
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
@@ -13,33 +13,50 @@ use Composer\Script\ScriptEvents;
 
 class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
 {
+  /**
+   * @var Composer
+   */
+  private $composer;
 
   /**
-   * This method is called when the plugin is activated. It allows the plugin
-   * to perform any necessary setup or initialization.
-   * 
-   * {@inheritDoc}
+   * @var IOInterface
    */
-  public function activate(Composer $composer, IOInterface $io)
+  private $io;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function activate(Composer $composer, IOInterface $io): void
   {
-    // Nothing to do here.
+    $this->composer = $composer;
+    $this->io = $io;
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function deactivate(Composer $composer, IOInterface $io): void {}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function uninstall(Composer $composer, IOInterface $io): void {}
 
   /**
    * Attach package installation events.
    *
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents()
+  public static function getSubscribedEvents(): array
   {
     return [
-      ScriptEvents::POST_INSTALL_CMD => ['copyFiles', 10],
-      ScriptEvents::POST_UPDATE_CMD => ['copyFiles', 10],
+      ScriptEvents::POST_INSTALL_CMD => ['copyFilesToRoot', 10],
+      ScriptEvents::POST_UPDATE_CMD => ['copyFilesToRoot', 10],
     ];
   }
   
 
-  public static function copyFiles(Event $event)
+  public static function copyFilesToRoot(Event $event)
   {
     $filesToCopy = [
       'phpcs.xml.dist',
@@ -50,8 +67,8 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
 
     // Path to the dist directory.
     $sourceDir = __DIR__ . '/../../dist';
-    echo "Source directory: $sourceDir\n";
-    echo "DIR: " . __DIR__ . "\n";
+    $this->io->write("Source directory: $sourceDir\n");
+    $this->io->write("DIR: " . __DIR__ . "\n");
     // Target directory (current working directory).
     $targetDir = getcwd();
 
@@ -61,11 +78,14 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
 
       if (file_exists($srcFile)) {
         copy($srcFile, $dstFile);
-        echo "Copied: $srcFile to $dstFile\n";
+        $this->io->write("Copied: $srcFile to $dstFile\n");
       }
       else {
-        echo "File not found: $srcFile\n";
+        $this->io->write("File not found: $srcFile\n");
       }
     }
+    $this->io->write('<fg=green>Configuration files are copied successfully.</fg=green>');
+
   }
+
 }
