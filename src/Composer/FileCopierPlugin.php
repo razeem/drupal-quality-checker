@@ -61,7 +61,6 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
     $filesToCopy = [
       'phpcs.xml.dist',
       'phpmd.xml.dist',
-      'grumphp.yml.dist',
       'phpstan.neon.dist'
     ];
 
@@ -79,24 +78,37 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
       $dstFile = $targetDir . '/' . $file;
 
       if (file_exists($srcFile)) {
-        if ($file === 'grumphp.yml.dist' && $projectCode !== null) {
-          // Modify the content of grumphp.yml.dist only if project-code.txt exists
-          $content = file_get_contents($srcFile);
-          $content = str_replace('<project-code>', $projectCode, $content);
-          file_put_contents($dstFile, $content);
-          $this->io->write("Modified and copied: $srcFile to $dstFile\n");
-        }
-        else {
-          // Just copy the file if it's not grumphp.yml.dist or if project-code.txt does not exist
-          copy($srcFile, $dstFile);
-          $this->io->write("Copied: $srcFile to $dstFile\n");
-        }
-      }
-      else {
+        // Just copy the file for all except grumphp.yml.dist
+        copy($srcFile, $dstFile);
+        $this->io->write("Copied: $srcFile to $dstFile\n");
+      } else {
         $this->io->write("File not found: $srcFile\n");
       }
     }
-    $this->io->write('<fg=green>Configuration files are copied successfully.</fg=green>');
+
+    // Handle grumphp.yml.dist separately
+    $grumphpSrcFile = $sourceDir . '/grumphp.yml.dist';
+    $grumphpDstFile = $targetDir . '/grumphp.yml';
+  
+    if (file_exists($grumphpSrcFile)) {
+      if ($projectCode !== null) {
+        // Modify the content of grumphp.yml.dist only if project-code.txt exists
+        $content = file_get_contents($grumphpSrcFile);
+        $content = str_replace('<project-code>', $projectCode, $content);
+        file_put_contents($grumphpDstFile, $content);
+        $this->io->write("Modified and renamed: $grumphpSrcFile to $grumphpDstFile\n");
+      }
+       else {
+        // Just copy the file if project-code.txt does not exist
+        copy($grumphpSrcFile, $grumphpDstFile);
+        $this->io->write("Copied: $grumphpSrcFile to $grumphpDstFile\n");
+      }
+    }
+    else {
+      $this->io->write("File not found: $grumphpSrcFile\n");
+    }
+
+    $this->io->write('<fg=green>Configuration files are processed successfully.</fg=green>');
   }
 
 }
