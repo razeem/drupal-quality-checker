@@ -6,6 +6,15 @@ grumphp:
     failed: vendor/razeem/drupal-quality-checker/resources/grumpy.txt
     succeeded: vendor/razeem/drupal-quality-checker/resources/happy.txt
   tasks:
+    git_commit_message:
+      allow_empty_message: false
+      enforce_capitalized_subject: true
+      enforce_no_subject_punctuations: false
+      enforce_single_lined_subject: true
+      skip_on_merge_commit: true
+      max_subject_width: 0
+      matchers:
+        Commit message must include a ticket number in the format ABC-1234: '/^ABC-\d+: (.+)$/'
     phpcs:
       standard:
         - phpcs.xml.dist
