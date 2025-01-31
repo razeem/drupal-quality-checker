@@ -61,7 +61,8 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
     $filesToCopy = [
       'phpcs.xml.dist',
       'phpmd.xml.dist',
-      'phpstan.neon.dist'
+      'phpstan.neon.dist',
+      'grumphp.yml.dist',
     ];
 
     // Path to the dist directory.
@@ -91,7 +92,6 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
           }
         }
         else {
-          $grumphpFile = $targetDir . '/grumphp.yml';
           // Just copy the file if it's not grumphp.yml.dist or if project-code.txt does not exist
           copy($srcFile, $dstFile);
           $this->io->write("Copied: $srcFile to $dstFile\n");
