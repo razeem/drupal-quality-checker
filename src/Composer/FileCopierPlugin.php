@@ -71,43 +71,36 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
 
     // Read project code from project-code.txt
     $projectCodeFile = $targetDir . '/project-code.txt';
-    $projectCode = file_exists($projectCodeFile) ? trim(file_get_contents($projectCodeFile)) : null;
-
+    $projectCode = file_exists($projectCodeFile) ? trim(file_get_contents($projectCodeFile)) : "ABC";
     foreach ($filesToCopy as $file) {
       $srcFile = $sourceDir . '/' . $file;
       $dstFile = $targetDir . '/' . $file;
 
       if (file_exists($srcFile)) {
-        // Just copy the file for all except grumphp.yml.dist
-        copy($srcFile, $dstFile);
-        $this->io->write("Copied: $srcFile to $dstFile\n");
-      } else {
+        if ($file === 'grumphp.yml.dist' && $projectCode !== null) {
+          // Modify the content of grumphp.yml.dist only if project-code.txt exists
+          $content = file_get_contents($srcFile);
+          $content = str_replace('<project-code>', $projectCode, $content);
+          file_put_contents($dstFile, $content);
+          $this->io->write("Modified and copied: $srcFile to $dstFile\n");
+          // Check if grumphp.yml exists in the current working directory
+          $grumphpFile = $targetDir . '/grumphp.yml';
+          if (!file_exists($grumphpFile)) {
+            file_put_contents($grumphpFile, $content);
+            $this->io->write("Created: $grumphpFile with content from grumphp.yml.dist\n");
+          }
+        }
+        else {
+          $grumphpFile = $targetDir . '/grumphp.yml';
+          // Just copy the file if it's not grumphp.yml.dist or if project-code.txt does not exist
+          copy($srcFile, $dstFile);
+          $this->io->write("Copied: $srcFile to $dstFile\n");
+        }
+      }
+      else {
         $this->io->write("File not found: $srcFile\n");
       }
     }
-
-    // Handle grumphp.yml.dist separately
-    $grumphpSrcFile = $sourceDir . '/grumphp.yml.dist';
-    $grumphpDstFile = $targetDir . '/grumphp.yml';
-  
-    if (file_exists($grumphpSrcFile)) {
-      if ($projectCode !== null) {
-        // Modify the content of grumphp.yml.dist only if project-code.txt exists
-        $content = file_get_contents($grumphpSrcFile);
-        $content = str_replace('<project-code>', $projectCode, $content);
-        file_put_contents($grumphpDstFile, $content);
-        $this->io->write("Modified and renamed: $grumphpSrcFile to $grumphpDstFile\n");
-      }
-       else {
-        // Just copy the file if project-code.txt does not exist
-        copy($grumphpSrcFile, $grumphpDstFile);
-        $this->io->write("Copied: $grumphpSrcFile to $grumphpDstFile\n");
-      }
-    }
-    else {
-      $this->io->write("File not found: $grumphpSrcFile\n");
-    }
-
     $this->io->write('<fg=green>Configuration files are processed successfully.</fg=green>');
   }
 
