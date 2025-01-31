@@ -14,7 +14,7 @@ grumphp:
       skip_on_merge_commit: true
       max_subject_width: 0
       matchers:
-        Commit message must include a ticket number in the format ABC-1234: '/^ABC-\d+: (.+)$/'
+        Commit message must include a ticket number in the format <project-code>-1234: '/^<project-code>-\d+: (.+)$/'
     phpcs:
       standard:
         - phpcs.xml.dist

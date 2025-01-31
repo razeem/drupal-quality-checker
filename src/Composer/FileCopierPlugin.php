@@ -70,13 +70,27 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
     // Target directory (current working directory).
     $targetDir = getcwd();
 
+    // Read project code from project-code.txt
+    $projectCodeFile = $targetDir . '/project-code.txt';
+    $projectCode = file_exists($projectCodeFile) ? trim(file_get_contents($projectCodeFile)) : null;
+
     foreach ($filesToCopy as $file) {
       $srcFile = $sourceDir . '/' . $file;
       $dstFile = $targetDir . '/' . $file;
 
       if (file_exists($srcFile)) {
-        copy($srcFile, $dstFile);
-        $this->io->write("Copied: $srcFile to $dstFile\n");
+        if ($file === 'grumphp.yml.dist' && $projectCode !== null) {
+          // Modify the content of grumphp.yml.dist only if project-code.txt exists
+          $content = file_get_contents($srcFile);
+          $content = str_replace('<project-code>', $projectCode, $content);
+          file_put_contents($dstFile, $content);
+          $this->io->write("Modified and copied: $srcFile to $dstFile\n");
+        }
+        else {
+          // Just copy the file if it's not grumphp.yml.dist or if project-code.txt does not exist
+          copy($srcFile, $dstFile);
+          $this->io->write("Copied: $srcFile to $dstFile\n");
+        }
       }
       else {
         $this->io->write("File not found: $srcFile\n");
