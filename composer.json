@@ -44,6 +44,9 @@
     }
   },
   "require-dev": {
-    "composer/composer": "^2.7"
+    "composer/composer": "^2.7",
+    "composer/composer-lint": "^1.0",
+    "drupol/composer-cslint": "^0.10.0",
+    "friendsoftwig/twigcs": "^5.0"
   }
 }

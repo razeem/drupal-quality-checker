@@ -1,0 +1,6 @@
+{
+  "rules": [
+    "no-duplicate",
+    "valid-json"
+  ]
+}

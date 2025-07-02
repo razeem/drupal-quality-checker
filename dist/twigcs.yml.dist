@@ -1,0 +1,8 @@
+ruleset:
+  - '@drupal'
+paths:
+  - web/modules/custom
+  - web/themes/custom
+exclude:
+  - node_modules
+  - vendor
