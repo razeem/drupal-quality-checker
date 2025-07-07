@@ -61,3 +61,10 @@ grumphp:
         - inc
       memory_limit: "-1"
       use_grumphp_paths: true
+    composer:
+      file: composer.json
+      no_check_lock: false
+    cslint:
+      config: cslint.json.dist
+    twigcs:
+      config: twigcs.yml.dist

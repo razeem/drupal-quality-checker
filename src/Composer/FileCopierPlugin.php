@@ -10,7 +10,6 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * This class implements a Composer plugin that copies configuration files
@@ -54,7 +53,7 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
       ScriptEvents::POST_UPDATE_CMD => ['copyFilesToRoot', 10],
     ];
   }
-  
+
 
   public function copyFilesToRoot(Event $event)
   {
@@ -63,6 +62,9 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
       'phpmd.xml.dist',
       'phpstan.neon.dist',
       'grumphp.yml.dist',
+      'composer-lint.json.dist',
+      'cslint.json.dist',
+      'twigcs.yml.dist',
     ];
 
     // Path to the dist directory.
@@ -78,7 +80,7 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface
       $dstFile = $targetDir . '/' . $file;
 
       if (file_exists($srcFile)) {
-        if ($file === 'grumphp.yml.dist' && $projectCode !== null) {
+        if ($file === 'grumphp.yml.dist' && $projectCode !== NULL) {
           // Modify the content of grumphp.yml.dist only if project-code.txt exists
           $content = file_get_contents($srcFile);
           $content = str_replace('<project-code>', $projectCode, $content);
