@@ -13,6 +13,9 @@
   <!--Exclude third party code.-->
   <exclude-pattern>./assets/vendor/*</exclude-pattern>
 
+  <!--to consider recipes.-->
+  <exclude-pattern>./recipes/*</exclude-pattern>
+
   <file>.</file>
 
   <!-- PHPCS Arguments -->

@@ -10,6 +10,8 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * This class implements a Composer plugin that copies configuration files
@@ -91,9 +93,26 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface {
       $this->io->write("Copied: $sourcePreCommitFile to $dstPreCommitFile\n");
     }
 
-    // Read project code from project-code.txt
-    $projectCodeFile = $targetDir . '/project-code.txt';
-    $projectCode = file_exists($projectCodeFile) ? trim(file_get_contents($projectCodeFile)) : "ABC";
+    // Read project code from project-details.yml
+    $projectCodeFile = $targetDir . '/project-details.yml';
+    try {
+      if (file_exists($projectCodeFile)) {
+        $project_content = file_get_contents($projectCodeFile);
+      }
+      else {
+        // Prompt user for project name if file does not exist
+        $projectName = trim($event->getIO()->ask('<question>Enter your project code (JIRA project ID):</question>'));
+        $project_content = "projectcode:\n  $projectName\nmultisite:\n  - default\n";
+        file_put_contents($projectCodeFile, $project_content);
+      }
+      $project_details = Yaml::parse($project_content);
+    }
+    catch (ParseException $e) {
+      // Log the YAML parsing error using the injected logger service.
+      echo "YAML parsing error: \n" . $e->getMessage();
+      // Return an empty array in case of parsing error.
+    }
+    $projectCode = trim($project_details['projectcode']);
     foreach ($filesToCopy as $file) {
       $srcFile = $sourceDir . '/' . $file;
       $dstFile = $targetDir . '/' . $file;
