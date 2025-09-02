@@ -91,8 +91,13 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface {
       );
     }
     else {
+      if (!file_exists(dirname($dstPreCommitFile))) {
+        mkdir(dirname($dstPreCommitFile), 0755, TRUE);
+      }
       // If the pre-commit file does not exist, copy it to the target directory.
-      copy($sourcePreCommitFile, $dstPreCommitFile);
+      $sourcePreCommitFile = $sourceDir . '/git/pre-commit';
+      $content = file_get_contents($sourcePreCommitFile);
+      file_put_contents($dstPreCommitFile, $content);
       $this->io->write("Copied: $sourcePreCommitFile to $dstPreCommitFile\n");
     }
 
