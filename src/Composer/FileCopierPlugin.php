@@ -133,7 +133,7 @@ class FileCopierPlugin implements PluginInterface, EventSubscriberInterface {
             $srcFile,
             $dstFile,
             $content,
-            file_get_contents($dstFile)
+            file_exists($dstFile) ? file_get_contents($dstFile) : ''
           );
           // Check if grumphp.yml exists in the current working directory
           $grumphpFile = $targetDir . '/grumphp.yml';
