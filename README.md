@@ -17,7 +17,7 @@ This project sets up code quality checking tools for Drupal projects. It has bee
 To install the project, run the following command:
 
 ```bash
-composer require razeem/drupal-quality-checker
+composer require razeem/drupal-quality-checker:~1.0.1
 ```
 
 ### Add this to your composer.json in the respective project
@@ -27,7 +27,7 @@ composer require razeem/drupal-quality-checker
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/razeem/drupal-quality-checker"
+      "url": "https://github.com/razeem/drupal-quality-checker.git"
     }
   ]
 }
